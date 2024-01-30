@@ -1,4 +1,6 @@
 import asyncio
+import os
+import subprocess
 import discord
 import responses
 from discord import SelectOption, app_commands
@@ -209,6 +211,7 @@ def run_discord_bot():
     #check if server name is valid
     async def check_server_name(server):
         if server=="Palworld":
+            #return 1, 2 or 3
             return True
         elif server=="ModdedMC":
             return True
@@ -220,6 +223,7 @@ def run_discord_bot():
             
     #official func to start/stop servers
     async def start_server(server):
+        
         if server=="Palworld":
             #function to start server 1
             pass
@@ -231,7 +235,52 @@ def run_discord_bot():
             pass
         else:
             print('Invalid server name!')
-            return False
+            pass
+            #return False
+        
+        #make a way to say which server you want [string to int]; 1 = palworld, 2=etc.]; maybe make it check_server_name function
+        
+        #function to check if server is already running running
+        #then check if no more than two servers are running max
+        #then open servers        
+        
+        #change server runnings int
+        inkscape_dir=f"C:\Program Files (x86)\Steam\steamapps\common\Titan Souls"
+        os.path.isdir(inkscape_dir)
+        os.chdir(inkscape_dir)
+        subprocess.Popen("TITAN.exe")
+            
+        return True
+    
+    #stop servers
+    #official func to start/stop servers
+    async def stop_server(server):
+        #function to check if server is running
+        
+        if server=="Palworld":
+            #function to start server 1
+            pass
+        elif server=="ModdedMC":
+            #function to start server 2
+            pass
+        elif server=="VanillaMC":
+            #function to start server 3
+            pass
+        else:
+            print('Invalid server name!')
+            pass
+            #return False
+        
+        #make a way to say which server you want [string to int]; 1 = palworld, 2=etc.]; maybe make it check_server_name function
+        
+        #function to check if server is already running running
+        #if server is running
+        #close server
+        
+        #change server runnings int
+        os.system("taskkill -f -im TITAN.exe")
+            
+        return True
     
     #start palworld function
     async def start_palworld():
@@ -328,9 +377,13 @@ def run_discord_bot():
             await interaction.response.send_message(f"Server: {server} Starting...")
             print(f"Attempting to start server: [{server}]")
             success = await start_server(server)
+            
             if success:
                 print(f"Server starting success!")
+                Channel = interaction.channel
+                await Channel.send(f'Server starting success!')
                 #send response?
+                
         else:
             await interaction.response.send_message(f"Sorry, you can't run that command!", ephemeral=True)
             print(f'User {interaction.user} tried to use "/startserver"!')
@@ -347,7 +400,20 @@ def run_discord_bot():
                 await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
                 return
             await interaction.response.send_message(f"Server: {server} stopping...")
-            print(f"Attempting to start Server: [{server}]")
+            print(f"Attempting to stop Server: [{server}]")
+            
+            success = await stop_server(server)
+            if success:
+                print(f"Server sucessfully stopped!")
+                Channel = interaction.channel
+                await Channel.send(f'Server stopped!')
+                #send response?
+                
+            Channel = interaction.channel
+            await Channel.send(f'Server stopped successfully!')
+            print("server stopped!")
+            
+            
         else:
             await interaction.response.send_message(f"Sorry, you can't run that command!", ephemeral=True)
             print(f'User {interaction.user} tried to use "/stopserver"!')
