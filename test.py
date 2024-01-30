@@ -28,6 +28,8 @@ def open_program(program): #1 for palworld, 2 for modded mc, 3 for regular mc
 print("opening ")
 #subprocess.Popen("TITAN.lnk")
 
+#i could also add each file as LNKs!
+
 #titan 
 inkscape_dir=f"C:\Program Files (x86)\Steam\steamapps\common\Titan Souls"
 program_name="TITAN.exe"
