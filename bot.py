@@ -49,6 +49,7 @@ TICKETS = dict #blank dict of current tickets and their info
 ROLES = dict # a blank dict of role ids  we want to have saved
 RULES = "" #a blank var for the message id of the rules
 MEMBER_RANK_NAME = "Mature Member" #this is only var not in json!. EDIT ME!
+online_servers= int #max 3
 
 #******************************************************************************
 

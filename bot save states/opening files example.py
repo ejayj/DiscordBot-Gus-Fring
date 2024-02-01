@@ -26,21 +26,16 @@ def int_to_server(server_int: int): #returns name, exe, and lnk names.
     
     #TODO: #Change to actual files
     if server_int==1:
-        program="Palworld"
-        #program_exe="PalServer.exe"
-        #program_exe="PalServer-Win64-Test-Cmd."
+        program="TITAN"
+        program_exe="TITAN.exe"
         #program_lnk="TITAN.lnk"
-        #program_dir=f"D:\SteamLibrary\steamapps\common\PalServer"
-        program_exe="PalServer-Win64-Test-Cmd.exe"
-        program_dir="D:\SteamLibrary\steamapps\common\PalServer\Pal\Binaries\Win64"
+        program_dir=f"C:\Program Files (x86)\Steam\steamapps\common\Titan Souls"
         return program,program_exe,program_dir
     elif server_int==2:
-        program="VanillaMC"
-        #program_exe="ServerStarterNoGui.bat"
-        program_exe="paper.jar"
+        program="TITAN"
+        program_exe="TITAN.exe"
         #program_lnk="TITAN.lnk"
-        program_dir=f"C:\\Users\ejayj\Desktop\minecraft stuffs\minecraft server\paper server"
-        #"C:\Users\ejayj\Desktop\minecraft stuffs\minecraft server\paper server"
+        program_dir=f"C:\Program Files (x86)\Steam\steamapps\common\Titan Souls"
         return program,program_exe,program_dir
     elif server_int==3:
         program="TITAN"
@@ -53,7 +48,7 @@ def int_to_server(server_int: int): #returns name, exe, and lnk names.
         return False
 
 #checks if a specific server is running; 
-def is_running(server: int): #can also do tasklist -f PROCESSNAME.exe
+def is_running(server: int): 
     global online_servers
     program, program_exe, program_dir = int_to_server(server) #will throw error if not given int or valid range
 
@@ -157,7 +152,7 @@ def start_server(server: int):
     # print(success)
     
     #or attempt this: where dir can be a var passed from int_to_server(server): program_dir
-    inkscape_dir=f"{program_dir}"
+    inkscape_dir=f"C:\Program Files (x86)\Steam\steamapps\common\Titan Souls"
     os.path.isdir(inkscape_dir)
     os.chdir(inkscape_dir)
     success=subprocess.Popen(f"{program_exe}")
@@ -185,7 +180,7 @@ def stop_server(server: int):
     if stopserver_error_checks(server):
         return False
     
-    program,program_exe,program_dir=int_to_server(server)
+    program,program_exe,program_lnk,program_dir=int_to_server(server)
     
     #check if successful
     success=os.system(f"taskkill -f -im {program_exe}") #retuns 0 if successful, 128 unsuccessful
@@ -224,7 +219,4 @@ def unlock_commands():
 
 #***********************************************
 
-#start_server(2)
-#stop_server(1)
-subprocess.Popen(f"paper.ex")
-#os.system("paper.lnk")
+        
