@@ -13,7 +13,8 @@ pip install command:
  Set-ExecutionPolicy Unrestricted -Scope Process
  .venv\Scripts\activate
 
-
+also
+Set-ExecutionPolicy RemoteSigned
 
  https://stackoverflow.com/questions/67103214/python-script-stops-running-after-running-command-using-os-system
 

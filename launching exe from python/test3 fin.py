@@ -10,7 +10,7 @@ max_servers=2 #server limit
 online_servers= set() #current running servers
 command_locked=bool #if the start/stop commands are locked
 
-async def on_startup():
+def on_startup():
     #get how many servers are online; automatically changes global values
     result = check_all_servers_running() 
     
@@ -23,7 +23,7 @@ async def on_startup():
         pass
 
 
-async def int_to_server(server_int: int): #returns name, exe, and lnk names. 
+def int_to_server(server_int: int): #returns name, exe, and lnk names. 
     
     if server_int not in range(1,servers+1): #check if its integer is in the appropriate range. servers+1 allows for atual range
         raise ValueError(f"Invalid value for server int. Value: {server_int} was given.")
@@ -51,7 +51,7 @@ async def int_to_server(server_int: int): #returns name, exe, and lnk names.
         return False
 
 #checks if a specific server is running; 
-async def is_running(server: int): #can also do tasklist -f PROCESSNAME.exe
+def is_running(server: int): #can also do tasklist -f PROCESSNAME.exe
     global online_servers
     program, program_exe, program_dir,program_lnk = int_to_server(server) #will throw error if not given int or valid range
 
@@ -70,7 +70,7 @@ async def is_running(server: int): #can also do tasklist -f PROCESSNAME.exe
         return False
             
 #check all servers to see if running
-async def check_all_servers_running():
+def check_all_servers_running():
     
     print('CHECKING RUNNING SERVERS.....')
     global online_servers, servers
@@ -84,7 +84,7 @@ async def check_all_servers_running():
     return check_servers_cap()
 
 #check if running servers doesnt go over max servers allowed
-async def check_servers_cap():
+def check_servers_cap():
     global max_servers, online_servers
     running_servers=len(online_servers)
     if running_servers == max_servers:
@@ -103,7 +103,7 @@ async def check_servers_cap():
         return True #can start servers
 
 #pre-check for starting server command
-async def startserver_error_prechecks(server: int):
+def startserver_error_prechecks(server: int):
     
      #check if server is already running, and verifies int
     if is_running(server):
@@ -119,7 +119,7 @@ async def startserver_error_prechecks(server: int):
     return True
 
 #pre-check for stopping server command
-async def stopserver_error_checks(server: int):
+def stopserver_error_checks(server: int):
     
      #check if server is already running, and verifies int
     if not is_running(server):
@@ -128,7 +128,7 @@ async def stopserver_error_checks(server: int):
     return False
     
 #starts server
-async def start_server(server: int):
+def start_server(server: int):
     
     if not startserver_error_prechecks(server):
         return False 
@@ -161,7 +161,7 @@ async def start_server(server: int):
         return False
 
 #stop server function
-async def stop_server(server: int):
+def stop_server(server: int):
     #same thing as start server
     
     #check for any errors; also prints error message
@@ -187,7 +187,7 @@ async def stop_server(server: int):
         return False
 
 #returns if server is running, and uptime; and maybe other info like version info and etc.
-async def server_info(server: int):
+def server_info(server: int):
     running=is_running(server)
     uptime="" #eventually, a server_time(server: int) function
     return running, uptime
@@ -199,7 +199,7 @@ async def server_info(server: int):
 #*****BOOK MARK CHECK POINT******* 
 
 #this is a command to unlock the start/stop commands: founder online (or dev)
-async def unlock_commands():
+def unlock_commands():
     pass
 
 
