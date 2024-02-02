@@ -10,7 +10,7 @@ def get_response(message: str) -> str:
         return str(random.randint(1,6))
     
     if p_message == '!help':
-        return '`This is a help message that you can modify. Currently, NULL.`'
+        return '`For help with a specific command, type /help on my Los Pollos Hermanos server. For modhelp, use @ModMail. To start a server, use /requeststartserver in the Los Pollos Hermanos server.\n For suggests, type in the #requesthelp channel on the server. \n For server technical problems, message @ejayj directly!`'
     
     if p_message == 'help':
         return 'Hi! What can I assist you with today? Type !help for more.'

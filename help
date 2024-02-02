@@ -1,0 +1,17 @@
+"`Gus Fring Commands: \n
+\n
+Main:\n
+/roll - Roll the dice for a random number!\n
+/rugay - It's time to find out the truth.\n
+/serverinfo - Displays server ips and online status.\n
+/requeststartserver - Request for a server to be started.\n
+/modhelp - Sends a help request to the mod team.\n
+/help - Displays this message. Also type /help [command] for more.\n
+\n
+Server Managers Only:\n
+/startserver - Start any server.\n
+/stopserver - Stop any server.\n
+\n
+For more help on a command, type /help [command]`\n"
+
+

@@ -12,6 +12,7 @@ from discord.utils import get
 from discord.ui import Select, View
 import json
 from pathlib import Path
+from typing import Optional
 
 #reaction roles reacts to rules channel id and message
 #lock commands to founder: sync, synctoguild, add role auth, add channel auth, create rules reaction
@@ -644,7 +645,7 @@ def run_discord_bot():
         await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
 
     #**********************************************************************************
-    #MEME COMMANDS 
+    #MEME/OTHER COMMANDS 
     #**********************************************************************************
     
     #memer command: y r u gay
@@ -668,6 +669,47 @@ def run_discord_bot():
         """Roll the dice!"""
         roll = random.randint(1,6)
         await interaction.response.send_message(f"You rolled a {roll}!", ephemeral=True)
+        
+    @client.tree.command()
+    @app_commands.describe(message="Type your message here!")
+    async def say(interaction: discord.Integration, message: str):
+        """Have me say somthing to the server!"""
+        #allowed = await lock_command(interaction.user,"Red")
+        #print(allowed)
+        await interaction.response.send_message(f"{message}")
+
+    @say.error
+    async def say(interaction: discord.Integration, error):
+        await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
+    
+    @client.tree.command()
+    @app_commands.describe(message="Enter a command here")
+    async def help(interaction: discord.Integration, command: Optional[str]):
+        """Get a list of available commands"""
+        if command:
+            if command=="rugay":
+                await interaction.response.send_message(f"/rugay - I bet you wanna know what this command does😏", ephemeral=True)
+            elif command=="roll":
+                await interaction.response.send_message(f"/roll - returns a random number, 1 to 6, just like a dice!", ephemeral=True)
+            elif command=="serverinfo":
+                await interaction.response.send_message(f"/serverinfo - returns a list of the servers and their ips, and if they're offline.", ephemeral=True)
+            elif command=="requeststartserver":
+                await interaction.response.send_message(f"/requeststartserver [Server] - Sends a request to any available server manager to start a server. (Usage Example: /requeststartserver Palworld)", ephemeral=True)
+            elif command=="modhelp":
+                await interaction.response.send_message(f"/modhelp - Starts a modhelp ticket in your DMs to request help. Also use this for any inquiries or concerns!", ephemeral=True)
+            elif command=="help":
+                await interaction.response.send_message(f"Hahaaaa you're silly. Type /help [command] for information on a specific command. (Example: /help roll)", ephemeral=True)
+            elif command=="startserver":
+                await interaction.response.send_message(f"/startserver [server] - This starts a server of your choice. There can only be 2 servers running at a time! Stop a server not in use at your leisure with /stopserver. Type 1 for Palworld, 2 for  Minecraft, and 3 for Modded Minecraft. (Example: /startserver 1)\n \n If this command returns an error, please message @ejayj and do not run the command again!", ephemeral=True)
+            elif command=="stopserver":
+                await interaction.response.send_message(f"/stopserver [server] - This stops a server of your choice. Feel free to use this command when  a server is not in use. Type 1 for Palworld, 2 for  Minecraft, and 3 for Modded Minecraft. (Example: /startserver 1)\n \n If this command returns an error, please message @ejayj and do not run the command again!", ephemeral=True)
+        else:
+            help_message="`Gus Fring Commands: \n \n Main:\n /roll - Roll the dice for a random number!\n /rugay - It's time to find out the truth.\n /serverinfo - Displays server ips and online status.\n /requeststartserver - Request for a server to be started.\n /modhelp - Sends a help request to the mod team.\n /help - Displays this message. Also type /help [command] for more.\n \n Server Managers Only:\n /startserver - Start any server.\n /stopserver - Stop any server.\n \n For more help on a command, type /help [command]`\n"
+            await interaction.response.send_message(f"{help_message}", ephemeral=True)
+
+    @help.error
+    async def help(interaction: discord.Integration, error):
+        await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
             
     #**********************************************************************************
     #private messaging
