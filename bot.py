@@ -683,7 +683,7 @@ def run_discord_bot():
         await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
     
     @client.tree.command()
-    @app_commands.describe(message="Enter a command here")
+    @app_commands.describe(command="Enter a command here")
     async def help(interaction: discord.Integration, command: Optional[str]):
         """Get a list of available commands"""
         if command:
