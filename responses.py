@@ -19,10 +19,14 @@ def get_response(message: str) -> str:
         return 'You are gay!'
     
     if "faggot" in p_message:
-        int=random.randint(0,1)
+        int=random.randint(0,3)
         if int==0:
             return 'You can\'t say that! I\'m telling Daud!'
         elif int==1:
             return 'Call the cops!'
+        elif int==3:
+            return 'That\'s mean! :('
+        elif int==4:
+            return 'Bend over rn'
     
     return 'I didn\'t understand what you wrote. Try typing "!help".'

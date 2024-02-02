@@ -56,9 +56,9 @@ ROLES = dict # a blank dict of role ids  we want to have saved
 RULES = "" #a blank var for the message id of the rules
 MEMBER_RANK_NAME = "Member" #this is only var not in json!. EDIT ME!
 MOD_CHANNEL = 1075832483557408902 #Mod channel ID for comms with mods
-SERVER_STARTER_ROLE="Red" #Role for server starter ping - upon request server start
+SERVER_STARTER_ROLE="ServerStarter" #Role for server starter ping - upon request server start
 SERVER_STARTER_CHANNEL= 1075832483876180088 #channel for server starters #currently this channel is set to #trusted
-GUILD_ID = 1075832483146379419 #paste id of guild here
+GUILD_ID = 1075832482110373949 #paste id of guild here
 
 
 servers=3 #amount of servers available
@@ -287,11 +287,13 @@ def run_discord_bot():
         if f"{program_exe}" in (i.name() for i in psutil.process_iter()):#replace this with the actual check if a program is running
             if program not in online_servers: #if not in online server set, add it
                 online_servers.add(program)
+                await client.change_presence(activity=discord.Game(name=f"{program}"))
             print(f'Server: [{program}] is currently running!')
             return True
         else:
             if program in online_servers: #remove from online server 
                 online_servers.remove(program)
+                await client.change_presence(activity=None)
             print(f'Server: [{program}] is OFFLINE.')
             return False
                 
@@ -380,9 +382,11 @@ def run_discord_bot():
             print(f"Successfully Started Server: [{program}]")
             online_servers.add(program)
             await check_all_servers_running()
+            await client.change_presence(activity=discord.Game(name=f"{program}"))
             return True
         elif not success:
             print(f"FAILED TO OPEN: {program_exe}")
+            await client.change_presence(activity=None)
             return False
 
     #stop server function
@@ -407,6 +411,7 @@ def run_discord_bot():
             online_servers.remove(program)
             #online_servers.remove(program) #not needed if i get success from is_running, as it does this automatically
             await check_all_servers_running()
+            await client.change_presence(activity=None)
             return True
         elif not success:
             #if fail, pass error message to logs and let command caller know that ive been notified; lock start/stop server functions
@@ -570,16 +575,29 @@ def run_discord_bot():
         # namecheck=await check_server_name(server)
         
         serverinfo=""
-        x=1
-        while x<servers+1:
-            result= await is_running(x)
-            program,program_exe,program_dir,program_lnk=await int_to_server(x)
-            if not result:
-                serverinfo=serverinfo+f"\n Server {program} is OFFLINE."
-            else:
-                serverinfo=serverinfo+f"\n Server {program} is ONLINE."
-            x=x+1
-        #return server info
+        
+        #check server 1: palworld
+        server = await is_running(1)
+        if not server:
+            serverinfo=serverinfo+f"\n Server [Palworld] is OFFLINE."
+        else:
+            serverinfo=serverinfo+f"\n Server [Palworld] is ONLINE! IP: 71.169.9.2:8211"
+            
+        #check server 2: VanillaMC
+        server = await is_running(2)
+        if not server:
+            serverinfo=serverinfo+f"\n Server [Paper Minecraft v1.20.1] is OFFLINE."
+        else:
+            serverinfo=serverinfo+f"\n Server [Paper Minecraft v1.20.1] is ONLINE! IP: 71.169.9.2"
+            
+        #check server 3: ModdedMC
+        server = await is_running(3)
+        if not server:
+            serverinfo=serverinfo+f"\n Server [Forge Minecraft v1.20.1] is OFFLINE."
+        else:
+            serverinfo=serverinfo+f"\n Server [Forge Minecraft v1.20.1] is ONLINE! IP: 71.169.9.2:19132"
+            
+            
         await interaction.response.send_message(f"Server info: {serverinfo}")
     
     @serverinfo.error
@@ -590,7 +608,7 @@ def run_discord_bot():
     @app_commands.describe(server="Palworld, ModdedMC, or VanillaMC")
     async def requeststartserver(interaction: discord.Integration, server: str):
         """Request a server to be started!"""
-        global MOD_CHANNEL
+        global MOD_CHANNEL, SERVER_STARTER_ROLE, GUILD_ID
         if server in "Palworld, ModdedMC, or VanillaMC":
             print(f"User {interaction.user} requested server: [{server}] to be started.")
             await interaction.response.send_message(f"Sent request for {server} to be started!",ephemeral=True)
