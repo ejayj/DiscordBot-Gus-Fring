@@ -54,10 +54,12 @@ MODHELP_TICKET_IDS = set() #a set of ticket ids
 TICKETS = dict #blank dict of current tickets and their info
 ROLES = dict # a blank dict of role ids  we want to have saved
 RULES = "" #a blank var for the message id of the rules
-MEMBER_RANK_NAME = "Mature Member" #this is only var not in json!. EDIT ME!
-MOD_CHANNEL = 1075832477085610080 #Mod channel ID for comms with mods
+MEMBER_RANK_NAME = "Member" #this is only var not in json!. EDIT ME!
+MOD_CHANNEL = 1075832483557408902 #Mod channel ID for comms with mods
 SERVER_STARTER_ROLE="Red" #Role for server starter ping - upon request server start
-GUILD_ID = 1075832475223330936 #paste id of guild here
+SERVER_STARTER_CHANNEL= 1075832483876180088 #channel for server starters #currently this channel is set to #trusted
+GUILD_ID = 1075832483146379419 #paste id of guild here
+
 
 servers=3 #amount of servers available
 max_servers=2 #server limit
@@ -124,7 +126,7 @@ def run_discord_bot():
         # if not allowed:
         #     await interaction.response.send_message(f"Command not allowed!", ephemeral=True) 
         #     return
-        client.tree.copy_global_to(guild =discord.Object(id = 1075832475223330936))
+        client.tree.copy_global_to(guild =discord.Object(id = GUILD_ID))
         synced = await client.tree.sync()
         print(f"Synced {len(synced)} command(s) to dev guild!")
         await interaction.response.send_message(f"Synced {len(synced)} command(s) to dev guild!", ephemeral=True)
@@ -486,18 +488,19 @@ def run_discord_bot():
     
     #role lock these commands
     @client.tree.command()
-    @app_commands.describe(server="Input Integer: 1=Palworld, 2=ModdedMC, or 3=VanillaMC")
+    @app_commands.describe(server="Input Integer: 1=Palworld, 2=VanillaMC, or 3=ModdedMC")
     async def startserver(interaction: discord.Integration, server: int):
         """Start a server"""
         global servers
         priv = await check_role_priv(interaction.user)
+        program,program_exe,program_dir,program_lnk=await int_to_server(server)
         if priv:
             #str_check = await check_server_name(server)
             if server not in range(1,servers+1):#str_check: #check if server name passed is valid
                 await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
                 return
-            await interaction.response.send_message(f"Server: {server} Starting...")
-            print(f"Attempting to start server: [{server}]")
+            await interaction.response.send_message(f"Server: {program} Starting...")
+            print(f"Attempting to start server: [{program}]")
             success = await start_server(server)
             
             if success:
@@ -522,18 +525,19 @@ def run_discord_bot():
             
     #role lock these commands
     @client.tree.command()    
-    @app_commands.describe(server="Input Integer: 1=Palworld, 2=ModdedMC, or 3=VanillaMC")
+    @app_commands.describe(server="Input Integer: 1=Palworld, 2=VanillaMC, or 3=ModdedMC")
     async def stopserver(interaction: discord.Integration, server: int):
         """Stop a server"""
         global servers
         priv = await check_role_priv(interaction.user)
+        program,program_exe,program_dir,program_lnk=await int_to_server(server)
         if priv:
             #str_check = await check_server_name(server)
             if server not in range(1,servers+1):#str_check: #check if server name passed is valid
                 await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
                 return
-            await interaction.response.send_message(f"Server: {server} stopping...")
-            print(f"Attempting to stop Server: [{server}]")
+            await interaction.response.send_message(f"Server: {program} stopping...")
+            print(f"Attempting to stop Server: [{program}]")
             
             success = await stop_server(server)
             if success:
@@ -576,11 +580,11 @@ def run_discord_bot():
                 serverinfo=serverinfo+f"\n Server {program} is ONLINE."
             x=x+1
         #return server info
-        await interaction.response.send_message(f"Server info: {serverinfo}", ephemeral=True)
+        await interaction.response.send_message(f"Server info: {serverinfo}")
     
     @serverinfo.error
     async def serverinfo(interaction: discord.Integration, error):
-        await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
+        await interaction.response.send_message(f"An Error has occured!: {error}")
 
     @client.tree.command()
     @app_commands.describe(server="Palworld, ModdedMC, or VanillaMC")
@@ -588,14 +592,14 @@ def run_discord_bot():
         """Request a server to be started!"""
         global MOD_CHANNEL
         if server in "Palworld, ModdedMC, or VanillaMC":
-            print(f"User {interaction.user} requested server: [{server}] to be started")
+            print(f"User {interaction.user} requested server: [{server}] to be started.")
             await interaction.response.send_message(f"Sent request for {server} to be started!",ephemeral=True)
             
             #send message to server starters in trusted channel
             guild = client.get_guild(GUILD_ID)
             role = get(guild.roles, name = SERVER_STARTER_ROLE)
                 
-            channel = client.get_channel(MOD_CHANNEL)
+            channel = client.get_channel(SERVER_STARTER_CHANNEL)
             await channel.send(f"User [{interaction.user}] has requested for server [{server}] to be started. {role.mention}")#send request
             return
         else:
@@ -630,8 +634,8 @@ def run_discord_bot():
     #@commands.has_any_role("Red")#this command restriction doesnt work
     async def rugay(interaction: discord.Integration):
         """Y R U Gey?"""
-        allowed = await lock_command(interaction.user,"Red")
-        print(allowed)
+        #allowed = await lock_command(interaction.user,"Red")
+        #print(allowed)
         await interaction.response.send_message(f"Y r u gey {interaction.user}?!")
 
     @rugay.error
@@ -645,7 +649,7 @@ def run_discord_bot():
     async def roll(interaction: discord.Integration):
         """Roll the dice!"""
         roll = random.randint(1,6)
-        await interaction.response.send_message(f"You rolled a {roll}!")
+        await interaction.response.send_message(f"You rolled a {roll}!", ephemeral=True)
             
     #**********************************************************************************
     #private messaging

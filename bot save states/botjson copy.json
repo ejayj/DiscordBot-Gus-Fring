@@ -1,0 +1,49 @@
+{
+    "REACTION_MESSAGES": [
+        1201416646699528232,
+        1202854117622423594,
+        1202868282026237962,
+        1202853284600094740
+    ],
+    "REACTION_CHANNELS": [
+        1075832476573896769,
+        1075832477588914201,
+        "<#1075832476573896772>"
+    ],
+    "ROLES": [
+        {
+            "Name": "Red",
+            "ID": 1075832475395297398
+        },
+        {
+            "Name": "Server Starter",
+            "ID": 0
+        },
+        {
+            "Name": "Staff",
+            "ID": 0
+        },
+        {
+            "Name": "Mature Member",
+            "ID": 1075832475223330941
+        },
+        {
+            "Name": "Senior Admin",
+            "ID": 1075832475290447979
+        }
+    ],
+    "RULES": 1202854117622423594,
+    "MODHELP_TICKET_IDS": [
+        0
+    ],
+    "TICKETS": [
+        {
+            "TICKET_ID": 0,
+            "USER": "USER_NAME",
+            "USER_ID": 0,
+            "CATEGORY": "5 Other",
+            "STATUS": "CLOSED",
+            "MESSAGE": "PLAYER MESSAGE HERE"
+        }
+    ]
+}
