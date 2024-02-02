@@ -215,3 +215,6 @@ async def unlock_commands():
 
 #implementation NOTE:
 #functions to be used: is_running(int), int_to_server(int), and on_startup to check all servers upon start.
+
+
+#make am essage when youve reached your server limit
