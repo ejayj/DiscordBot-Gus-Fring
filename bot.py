@@ -580,30 +580,30 @@ def run_discord_bot():
         #check server 1: palworld
         server = await is_running(1)
         if not server:
-            serverinfo=serverinfo+f"\n Server [Palworld] is OFFLINE."
+            serverinfo=serverinfo+f"\n Server [Palworld] is OFFLINE. IP: 71.169.9.2:8211"
         else:
             serverinfo=serverinfo+f"\n Server [Palworld] is ONLINE! IP: 71.169.9.2:8211"
             
         #check server 2: VanillaMC
         server = await is_running(2)
         if not server:
-            serverinfo=serverinfo+f"\n Server [Paper Minecraft v1.20.1] is OFFLINE."
+            serverinfo=serverinfo+f"\n Server [Paper Minecraft v1.20.1] is OFFLINE. IP: 71.169.9.2"
         else:
             serverinfo=serverinfo+f"\n Server [Paper Minecraft v1.20.1] is ONLINE! IP: 71.169.9.2"
             
         #check server 3: ModdedMC
         server = await is_running(3)
         if not server:
-            serverinfo=serverinfo+f"\n Server [Forge Minecraft v1.20.1] is OFFLINE."
+            serverinfo=serverinfo+f"\n Server [Forge Minecraft v1.20.1] is OFFLINE. IP: 71.169.9.2:19132"
         else:
             serverinfo=serverinfo+f"\n Server [Forge Minecraft v1.20.1] is ONLINE! IP: 71.169.9.2:19132"
             
             
         await interaction.response.send_message(f"Server info: {serverinfo}")
     
-    @serverinfo.error
-    async def serverinfo(interaction: discord.Integration, error):
-        await interaction.response.send_message(f"An Error has occured!: {error}")
+    # @serverinfo.error
+    # async def serverinfo(interaction: discord.Integration, error):
+    #     await interaction.response.send_message(f"An Error has occured!: {error}")
 
     @client.tree.command()
     @app_commands.describe(server="Palworld, ModdedMC, or VanillaMC")
