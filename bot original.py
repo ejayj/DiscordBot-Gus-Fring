@@ -493,81 +493,81 @@ def run_discord_bot():
     #****************
     
     #role lock these commands
-    # @client.tree.command()
-    # @app_commands.describe(server="Input Integer: 1=Palworld, 2=VanillaMC, or 3=ModdedMC")
-    # async def startserver(interaction: discord.Integration, server: int):
-    #     """Start a server"""
-    #     global servers
-    #     priv = await check_role_priv(interaction.user)
-    #     program,program_exe,program_dir,program_lnk=await int_to_server(server)
-    #     if priv:
-    #         #str_check = await check_server_name(server)
-    #         if server not in range(1,servers+1):#str_check: #check if server name passed is valid
-    #             await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
-    #             return
-    #         await interaction.response.send_message(f"Server: {program} Starting...")
-    #         print(f"Attempting to start server: [{program}]")
-    #         success = await start_server(server)
+    @client.tree.command()
+    @app_commands.describe(server="Input Integer: 1=Palworld, 2=VanillaMC, or 3=ModdedMC")
+    async def startserver(interaction: discord.Integration, server: int):
+        """Start a server"""
+        global servers
+        priv = await check_role_priv(interaction.user)
+        program,program_exe,program_dir,program_lnk=await int_to_server(server)
+        if priv:
+            #str_check = await check_server_name(server)
+            if server not in range(1,servers+1):#str_check: #check if server name passed is valid
+                await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
+                return
+            await interaction.response.send_message(f"Server: {program} Starting...")
+            print(f"Attempting to start server: [{program}]")
+            success = await start_server(server)
             
-    #         if success:
-    #             print(f"Server starting success!")
-    #             Channel = interaction.channel
-    #             await Channel.send(f'Server starting success!')
-    #             #send response?
-    #         else:
-    #             print(f"ERROR: Failed to start server!")
-    #             Channel = interaction.channel
-    #             await Channel.send(f'Server failed to start! Please use /requeststartserver. Do not run this command again!')
-    #             #send response?
+            if success:
+                print(f"Server starting success!")
+                Channel = interaction.channel
+                await Channel.send(f'Server starting success!')
+                #send response?
+            else:
+                print(f"ERROR: Failed to start server!")
+                Channel = interaction.channel
+                await Channel.send(f'Server failed to start! Please use /requeststartserver. Do not run this command again!')
+                #send response?
                 
-    #     else:
-    #         await interaction.response.send_message(f"Sorry, you can't run that command!", ephemeral=True)
-    #         print(f'User {interaction.user} tried to use "/startserver"!')
-    #     #message: too many servers started! use /requeststart server
+        else:
+            await interaction.response.send_message(f"Sorry, you can't run that command!", ephemeral=True)
+            print(f'User {interaction.user} tried to use "/startserver"!')
+        #message: too many servers started! use /requeststart server
     
-    # @startserver.error
-    # async def startserver(interaction: discord.Integration, error):
-    #     await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
+    @startserver.error
+    async def startserver(interaction: discord.Integration, error):
+        await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
             
-    # #role lock these commands
-    # @client.tree.command()    
-    # @app_commands.describe(server="Input Integer: 1=Palworld, 2=VanillaMC, or 3=ModdedMC")
-    # async def stopserver(interaction: discord.Integration, server: int):
-    #     """Stop a server"""
-    #     global servers
-    #     priv = await check_role_priv(interaction.user)
-    #     program,program_exe,program_dir,program_lnk=await int_to_server(server)
-    #     if priv:
-    #         #str_check = await check_server_name(server)
-    #         if server not in range(1,servers+1):#str_check: #check if server name passed is valid
-    #             await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
-    #             return
-    #         await interaction.response.send_message(f"Server: {program} stopping...")
-    #         print(f"Attempting to stop Server: [{program}]")
+    #role lock these commands
+    @client.tree.command()    
+    @app_commands.describe(server="Input Integer: 1=Palworld, 2=VanillaMC, or 3=ModdedMC")
+    async def stopserver(interaction: discord.Integration, server: int):
+        """Stop a server"""
+        global servers
+        priv = await check_role_priv(interaction.user)
+        program,program_exe,program_dir,program_lnk=await int_to_server(server)
+        if priv:
+            #str_check = await check_server_name(server)
+            if server not in range(1,servers+1):#str_check: #check if server name passed is valid
+                await interaction.response.send_message(f"Invalid Server Name, try again!", ephemeral=True)
+                return
+            await interaction.response.send_message(f"Server: {program} stopping...")
+            print(f"Attempting to stop Server: [{program}]")
             
-    #         success = await stop_server(server)
-    #         if success:
-    #             print(f"Server sucessfully stopped!")
-    #             Channel = interaction.channel
-    #             await Channel.send(f'Server stopped!')
-    #             #send response?
+            success = await stop_server(server)
+            if success:
+                print(f"Server sucessfully stopped!")
+                Channel = interaction.channel
+                await Channel.send(f'Server stopped!')
+                #send response?
                 
-    #             # Channel = interaction.channel
-    #             # await Channel.send(f'Server stopped successfully!')
-    #             # print("server stopped!")
-    #         else:
-    #             print(f"ERROR: Failed to stop server!")
-    #             Channel = interaction.channel
-    #             await Channel.send(f'Server failed to stop! Please message @Modmail about this for help. Do not run this command again!')
-    #             #send response?
-    #     else:
-    #         await interaction.response.send_message(f"Sorry, you can't run that command!", ephemeral=True)
-    #         print(f'User {interaction.user} tried to use "/stopserver"!')
-    #     #message: too many servers started! use /requeststart server
+                # Channel = interaction.channel
+                # await Channel.send(f'Server stopped successfully!')
+                # print("server stopped!")
+            else:
+                print(f"ERROR: Failed to stop server!")
+                Channel = interaction.channel
+                await Channel.send(f'Server failed to stop! Please message @Modmail about this for help. Do not run this command again!')
+                #send response?
+        else:
+            await interaction.response.send_message(f"Sorry, you can't run that command!", ephemeral=True)
+            print(f'User {interaction.user} tried to use "/stopserver"!')
+        #message: too many servers started! use /requeststart server
         
-    #     @stopserver.error
-    #     async def stopserver(interaction: discord.Integration, error):
-    #         await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
+        @stopserver.error
+        async def stopserver(interaction: discord.Integration, error):
+            await interaction.response.send_message(f"An Error has occured!: {error}", ephemeral=True)
     
     @client.tree.command()
     async def serverinfo(interaction: discord.Integration):
